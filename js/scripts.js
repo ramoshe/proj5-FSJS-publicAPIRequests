@@ -1,6 +1,6 @@
 const gallery = document.querySelector('#gallery');
 
-fetch('https://randomuser.me/api/?results=12')
+fetch('https://randomuser.me/api/?nat=us&results=12')
     .then(res => res.json())
     .then(data => {
         console.log(data.results);
@@ -24,6 +24,7 @@ function displayUsers(data) {
         gallery.insertAdjacentElement('beforeend', userCard);
 
         const userModal = document.createElement('div');
+        const userDOB = new Date(person.dob.date);
         userModal.className = 'modal-container';
         userModal.insertAdjacentHTML('beforeend', `
             <div class="modal">
@@ -36,7 +37,7 @@ function displayUsers(data) {
                     <hr>
                     <p class="modal-text">${person.cell}</p>
                     <p class="modal-text">${person.location.street.number} ${person.location.street.name}, ${person.location.city}, ${person.location.state} ${person.location.postcode}</p>
-                    <p class="modal-text">Birthday: ${person.dob.date}</p>
+                    <p class="modal-text">Birthday: ${userDOB.getMonth()}/${userDOB.getDay()}/${userDOB.getFullYear()}</p>
                 </div>
             </div>
             <div class="modal-btn-container">
@@ -47,7 +48,7 @@ function displayUsers(data) {
         userCard.addEventListener('click', () => {
             gallery.insertAdjacentElement('afterend', userModal);
             document.querySelector('#modal-close-btn').addEventListener('click', (e) => {
-                document.querySelector('.modal-container').style.display = 'none';
+                userModal.remove();
             });
         });
     });
