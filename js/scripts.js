@@ -7,9 +7,19 @@ const usersPromise = new Promise( (resolve, reject) => {
 });
 
 usersPromise
-    .then(users => users.forEach((person, index) => generateUser(person, index)));
+    .then(users => {
+        users.forEach((person, index) => {
+            const userCard = generateUserCard(person);
+            gallery.insertAdjacentElement('beforeend', userCard);
+            userCard.addEventListener('click', () => {
+                const userModal = generateModal(person);
+                gallery.insertAdjacentElement('afterend', userModal);
+                buttonListeners(userModal, index);
+            });
+        });
+    });
 
-function generateUser(person, index) {
+function generateUserCard(person) {
     const userCard = document.createElement('div');
     userCard.className = 'card';
     userCard.insertAdjacentHTML('beforeend', `
@@ -22,25 +32,12 @@ function generateUser(person, index) {
             <p class="card-text cap">${person.location.city}, ${person.location.state}</p>
         </div>
     `);
-    gallery.insertAdjacentElement('beforeend', userCard);
-    userCard.addEventListener('click', () => {
-        const userModal = generateModal(person);
-        gallery.insertAdjacentElement('afterend', userModal);
-        document.querySelector('#modal-close-btn').addEventListener('click', (e) => {
-            userModal.remove();
-        });
-        document.querySelector('#modal-next').addEventListener('click', (e) => {
-            console.log('next');
-        });
-        document.querySelector('#modal-prev').addEventListener('click', (e) => {
-            console.log('prev');
-        });
-    });
+    return userCard;
 }
 
 function generateModal(person) {
+    const userDOB = new Date(person.dob.date); // pulled out to be formatted later
     const userModal = document.createElement('div');
-    const userDOB = new Date(person.dob.date);
     userModal.className = 'modal-container';
     userModal.insertAdjacentHTML('beforeend', `
         <div class="modal">
@@ -64,6 +61,17 @@ function generateModal(person) {
     return userModal;
 }
 
-function buttonHandler() {
-    // eventually move event listener stuff here
+function buttonListeners(modal, index) {
+    const closeButton = document.querySelector('#modal-close-btn');
+    closeButton.addEventListener('click', () => modal.remove());
+
+    const nextButton = document.querySelector('#modal-next');
+    nextButton.addEventListener('click', () => {
+        console.log('next');
+    });
+
+    const prevButton = document.querySelector('#modal-prev');
+    prevButton.addEventListener('click', () => {
+        console.log('prev');
+    });
 }
