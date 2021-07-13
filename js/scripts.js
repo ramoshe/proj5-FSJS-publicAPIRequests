@@ -85,20 +85,23 @@ function buttonHandlers(modal, index) {
     });
 }
 
-const searchForm = document.createElement('form');
-searchForm.setAttribute('action', '#');
-searchForm.setAttribute('method', 'get');
-searchForm.insertAdjacentHTML('afterbegin', `
-    <input type="search" id="search-input" class="search-input" placeholder="Search...">
-    <input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit">
+const searchContainer = document.querySelector('.search-container');
+searchContainer.insertAdjacentHTML('afterbegin', `
+    <form action="#" method="get">
+        <input type="search" id="search-input" class="search-input" placeholder="Search...">
+        <input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit">
+    </form>
 `);
-document.querySelector('.search-container').insertAdjacentElement('afterbegin', searchForm);
-searchForm.firstElementChild.addEventListener('input', searchEventHandler);
+const searchInput = document.querySelector('#search-input');
+searchInput.addEventListener('input', searchEventHandler);
+
+const searchSubmit = document.querySelector('#search-submit');
+searchSubmit.addEventListener('click', searchEventHandler);
 
 function searchEventHandler() {
     let matches = [];
     gallery.innerHTML = '';
-    const input = document.querySelector('#search-input').value.toLowerCase();
+    const input = searchInput.value.toLowerCase();
     usersArray.forEach((person) => {
         const userName = (person.name.first +' '+ person.name.last).toLowerCase();
         if (userName.includes(input)) {
