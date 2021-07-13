@@ -4,7 +4,11 @@ let usersArray = [];
 const usersPromise = new Promise( (resolve, reject) => {
     fetch('https://randomuser.me/api/?nat=us&results=12')
         .then(response => response.json())
-        .then(data => resolve(data.results));
+        .then(data => resolve(data.results))
+        .catch(error => {
+            reject(error);
+            gallery.insertAdjacentHTML('afterbegin', `<h2>Error loading users<br>${error}</h2>`);
+        });
 });
 
 usersPromise
