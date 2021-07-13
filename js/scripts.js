@@ -1,6 +1,8 @@
 const gallery = document.querySelector('#gallery');
-let usersArray = [];
 
+/**
+ * Create a Promise object to hold fetched users
+ */
 const usersPromise = new Promise( (resolve, reject) => {
     fetch('https://randomuser.me/api/?nat=us&results=12')
         .then(response => response.json())
@@ -11,12 +13,22 @@ const usersPromise = new Promise( (resolve, reject) => {
         });
 });
 
+/**
+ * Use the Promise object to build an array of users and populate the page
+ */
+let usersArray = [];
 usersPromise
     .then(users => users.forEach((person, index) => {
         usersArray.push(person);
         generateUserCard(person, index);
     }));
 
+/**
+ * This function generates and appends the HTML to display a card for the user
+ * 
+ * @param {Object} person - the person object from usersArray
+ * @param {number} index - index of the current person object in the usersArray
+ */
 function generateUserCard(person, index) {
     const userCard = document.createElement('div');
     userCard.className = 'card';
@@ -36,6 +48,12 @@ function generateUserCard(person, index) {
     });
 }
 
+/**
+ * This function generates and appends the HTML to display a modal box for the user
+ * 
+ * @param {Object} person - the person object from usersArray
+ * @param {number} index - index of the current person object in the usersArray
+ */
 function generateModal(person, index) {
     const userDOB = new Date(person.dob.date); // pulled out to be formatted later
     const userModal = document.createElement('div');
@@ -63,6 +81,12 @@ function generateModal(person, index) {
     buttonHandlers(userModal, index);
 }
 
+/**
+ * This function adds listeners and handlers for the buttons on the modal display
+ * 
+ * @param {Object} person - the person object from usersArray
+ * @param {number} index - index of the current person object in the usersArray
+ */
 function buttonHandlers(modal, index) {
     const closeButton = document.querySelector('#modal-close-btn');
     closeButton.addEventListener('click', () => modal.remove());
@@ -95,6 +119,9 @@ function buttonHandlers(modal, index) {
     });
 }
 
+/**
+ * EXTRA CREDIT: Add Search bar
+ */
 const searchContainer = document.querySelector('.search-container');
 searchContainer.insertAdjacentHTML('afterbegin', `
     <form action="#" method="get">
@@ -108,6 +135,11 @@ searchInput.addEventListener('input', searchEventHandler);
 const searchSubmit = document.querySelector('#search-submit');
 searchSubmit.addEventListener('click', searchEventHandler);
 
+/**
+ * This function performs the search based on user input
+ * 
+ * @returns {Array} matches - the array of person objects that match the search
+ */
 function searchEventHandler() {
     let matches = [];
     gallery.innerHTML = '';
@@ -121,3 +153,9 @@ function searchEventHandler() {
     matches.forEach((item, index) => generateUserCard(item, index));
     return matches;
 }
+
+/**
+ * EXTRA CREDIt: Custom styling
+ */
+
+// need to add code here, and add notes to README
