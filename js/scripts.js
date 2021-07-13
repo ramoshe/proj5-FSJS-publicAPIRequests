@@ -76,8 +76,7 @@ function buttonHandlers(modal, index) {
     const nextButton = document.querySelector('#modal-next');
     nextButton.addEventListener('click', () => {
         modal.remove();
-        const numberOfUsers = document.querySelectorAll('.card').length;
-        if (index < (numberOfUsers - 1)) {
+        if (index < 11) {
             index += 1;
             const nextUser = usersArray[index];
             generateModal(nextUser, index);
