@@ -9,8 +9,8 @@ const usersPromise = new Promise( (resolve, reject) => {
 
 usersPromise
     .then(users => users.forEach((person, index) => {
-        generateUserCard(person, index);
         usersArray.push(person);
+        generateUserCard(person, index);
     }));
 
 function generateUserCard(person, index) {
@@ -105,6 +105,5 @@ function searchEventHandler() {
             matches.push(person);
         }
     });
-    usersArray = matches;
-    usersArray.forEach((match, index) => generateUserCard(match, index));
+    matches.forEach((item, index) => generateUserCard(item, index));
 }
