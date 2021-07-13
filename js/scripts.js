@@ -1,4 +1,5 @@
 const gallery = document.querySelector('#gallery');
+let usersArray = [];
 
 const usersPromise = new Promise( (resolve, reject) => {
     fetch('https://randomuser.me/api/?nat=us&results=12')
@@ -7,7 +8,10 @@ const usersPromise = new Promise( (resolve, reject) => {
 });
 
 usersPromise
-    .then(users => users.forEach((person, index) => generateUserCard(person, index)));
+    .then(users => users.forEach((person, index) => {
+        generateUserCard(person, index);
+        usersArray.push(person);
+    }));
 
 function generateUserCard(person, index) {
     const userCard = document.createElement('div');
@@ -59,27 +63,48 @@ function buttonHandlers(modal, index) {
     const closeButton = document.querySelector('#modal-close-btn');
     closeButton.addEventListener('click', () => modal.remove());
 
-    const nextButton = document.querySelector('#modal-next');
-    nextButton.addEventListener('click', () => {
-        modal.remove();
-        if (index < 11) {
-            index += 1;
-            usersPromise.then(users => {
-                const nextUser = users[index];
-                generateModal(nextUser, index);
-            });
-        }
-    });
-
     const prevButton = document.querySelector('#modal-prev');
     prevButton.addEventListener('click', () => {
         modal.remove();
         if (index > 0) {
             index -= 1;
-            usersPromise.then(users => {
-                const prevUser = users[index];
-                generateModal(prevUser, index);
-            });
+            const prevUser = usersArray[index];
+            generateModal(prevUser, index);
         }
     });
+
+    const nextButton = document.querySelector('#modal-next');
+    nextButton.addEventListener('click', () => {
+        modal.remove();
+        const numberOfUsers = document.querySelectorAll('.card').length;
+        if (index < (numberOfUsers - 1)) {
+            index += 1;
+            const nextUser = usersArray[index];
+            generateModal(nextUser, index);
+        }
+    });
+}
+
+const searchForm = document.createElement('form');
+searchForm.setAttribute('action', '#');
+searchForm.setAttribute('method', 'get');
+searchForm.insertAdjacentHTML('afterbegin', `
+    <input type="search" id="search-input" class="search-input" placeholder="Search...">
+    <input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit">
+`);
+document.querySelector('.search-container').insertAdjacentElement('afterbegin', searchForm);
+searchForm.firstElementChild.addEventListener('input', searchEventHandler);
+
+function searchEventHandler() {
+    let matches = [];
+    gallery.innerHTML = '';
+    const input = document.querySelector('#search-input').value.toLowerCase();
+    usersArray.forEach((person) => {
+        const userName = (person.name.first +' '+ person.name.last).toLowerCase();
+        if (userName.includes(input)) {
+            matches.push(person);
+        }
+    });
+    usersArray = matches;
+    usersArray.forEach((match, index) => generateUserCard(match, index));
 }
