@@ -46,6 +46,7 @@ function generateUserCard(person, index) {
     userCard.addEventListener('click', () => {
         generateModal(person, index);
     });
+    userCard.style.boxShadow = '3px 3px 7px dimgray';   
 }
 
 /**
@@ -156,6 +157,25 @@ function searchEventHandler() {
 
 /**
  * EXTRA CREDIt: Custom styling
+ * 
+ * note: body background color and image from https://www.heropatterns.com/
  */
+const body = document.querySelector('body');
+body.style.backgroundColor = '#afeeee';
+body.style.backgroundImage = `url("data:image/svg+xml,%3Csvg width='44' height='12' viewBox='0 0 44 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 12v-2L0 0v10l4 2h16zm18 0l4-2V0L22 10v2h16zM20 0v8L4 0h16zm18 0L22 8V0h16z' fill='%2348d1cc' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E")`;
 
-// need to add code here, and add notes to README
+const lobsterFont = document.createElement('link');
+lobsterFont.setAttribute('href', 'https://fonts.googleapis.com/css?family=Lobster');
+lobsterFont.setAttribute('rel', 'stylesheet');
+document.head.appendChild(lobsterFont);
+
+const heading = document.querySelector('h1');
+heading.textContent = heading.textContent.toLowerCase();
+heading.style.textTransform = 'capitalize';
+heading.style.fontFamily = 'Lobster';
+heading.style.fontSize = '2.5em';
+heading.style.textShadow = '1px 1px 2px gray';
+
+searchInput.setAttribute('placeholder', 'Search by name...');
+
+// see line 49 for drop shadow on user cards
