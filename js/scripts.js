@@ -67,12 +67,19 @@ function buttonHandlers(modal, index) {
     const closeButton = document.querySelector('#modal-close-btn');
     closeButton.addEventListener('click', () => modal.remove());
 
+    let array = [];
+    if (searchInput.value === '') {
+        array = usersArray;
+    } else {
+        array = searchEventHandler();
+    }
+
     const prevButton = document.querySelector('#modal-prev');
     prevButton.addEventListener('click', () => {
         modal.remove();
         if (index > 0) {
             index -= 1;
-            const prevUser = usersArray[index];
+            const prevUser = array[index];
             generateModal(prevUser, index);
         }
     });
@@ -80,9 +87,9 @@ function buttonHandlers(modal, index) {
     const nextButton = document.querySelector('#modal-next');
     nextButton.addEventListener('click', () => {
         modal.remove();
-        if (index < 11) {
+        if (index < (array.length - 1)) {
             index += 1;
-            const nextUser = usersArray[index];
+            const nextUser = array[index];
             generateModal(nextUser, index);
         }
     });
@@ -112,4 +119,5 @@ function searchEventHandler() {
         }
     });
     matches.forEach((item, index) => generateUserCard(item, index));
+    return matches;
 }
