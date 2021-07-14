@@ -70,7 +70,7 @@ function generateModal(person, index) {
                 <hr>
                 <p class="modal-text">${person.cell}</p>
                 <p class="modal-text">${person.location.street.number} ${person.location.street.name}, ${person.location.city}, ${person.location.state} ${person.location.postcode}</p>
-                <p class="modal-text">Birthday: ${userDOB.getMonth()}/${userDOB.getDay()}/${userDOB.getFullYear()}</p>
+                <p class="modal-text">Birthday: ${userDOB.getMonth()}/${userDOB.getDate()}/${userDOB.getFullYear()}</p>
             </div>
         </div>
         <div class="modal-btn-container">
