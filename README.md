@@ -1,5 +1,5 @@
 # FSJS Project 5: Public API Requests
- My fifth project for the Full Stack Javascript Techdegree program at Treehouse. An app that 
+ My fifth project for the Full Stack Javascript Techdegree program at Treehouse. An app that uses an API to generate fictional employees for a contact list.
 
 ## How To Use
  - You can view a live version of this project here: https://g.ramoshe.com/thp5-publicAPIRequests/
