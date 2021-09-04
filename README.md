@@ -1,4 +1,4 @@
-# Project 5 - Public API Requests
+# FSJS Project 5: Public API Requests
  The fifth project for the Full Stack Javascript Techdegree program at Treehouse
 
 ## How To Use
